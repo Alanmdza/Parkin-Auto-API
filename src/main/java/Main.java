@@ -2,7 +2,6 @@ import spark.Spark;
 
 public class Main {
     public static void main(String[] args) {
-        Spark.port(8082);
         Spark.post("/post", (request, response) -> {
             // Obtiene el cuerpo del POST
             String body = request.body();
