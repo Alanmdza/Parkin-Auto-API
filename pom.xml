@@ -19,6 +19,30 @@
             <version>2.9.1</version> <!-- Asegúrate de usar la última versión disponible -->
         </dependency>
     </dependencies>
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution> <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>Main</mainClass>
+                    <arguments>
+                        <argument>argument1</argument> ... </arguments>
+                    <systemProperties>
+                        <systemProperty>
+                            <key>myproperty</key>
+                            <value>myvalue</value>
+                        </systemProperty></systemProperties>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
