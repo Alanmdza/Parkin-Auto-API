@@ -13,5 +13,8 @@ public class Main {
             // Puedes responder con un mensaje de éxito si lo deseas
             return "POST recibido con éxito";
         });
+        Spark.get("/", (request, response) -> {
+            return "has hecho get a /";
+        });
     }
 }
