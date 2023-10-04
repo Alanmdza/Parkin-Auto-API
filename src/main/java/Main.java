@@ -25,14 +25,12 @@ public class Main {
 
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(body);
-            System.out.println(jsonNode.get("lugar").asText());
             JSONObject lugar = lugares.getJSONObject(jsonNode.get("lugar").asText());
             lugar.put("patente", jsonNode.get("patente").asText());
             lugar.put("ocupado", jsonNode.get("ocupado").asText());
             lugares.put(jsonNode.get("lugar").asText(), lugar);
             // JsonNode lugarJson = objectMapper.readTree(jsonText);
             // lugares.put("nombre_del_lugar", lugarJson);
-            System.out.println(lugar);
             return "POST recibido con éxito";
         });
 
