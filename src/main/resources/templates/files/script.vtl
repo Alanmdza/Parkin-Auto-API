@@ -1,0 +1,49 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const tabla1 = document.getElementById("tabla1");
+    const tabla2 = document.getElementById("tabla2");
+    const tableContainer = document.querySelector(".table-container");
+  
+    function refrescar() {
+      fetch("http://localhost:4567/get")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("La solicitud no fue exitosa");
+          }
+          return response.json(); // Convierte la respuesta en JSON
+        })
+        .then((data) => {
+          // Recorrer todos los lugares en el JSON
+          for (const lugar in data) {
+            if (data.hasOwnProperty(lugar)) {
+              const ocupado = data[lugar].ocupado;
+              const celda = document.getElementById(lugar);
+    
+              if (ocupado === true || ocupado === "true") {
+                // Lugar ocupado
+                celda.classList.remove("verde");
+                celda.classList.add("rojo");
+              } else {
+                // Lugar libre
+                celda.classList.remove("rojo");
+                celda.classList.add("verde");
+              }
+            }
+          }
+        })
+        .catch((error) => {
+          // Manejar errores
+          console.error("Error:", error);
+        });
+    }
+  
+    // Llamar a la función para cambiar colores cada 2 segundos en la primera tabla
+    setInterval(()=>refrescar(),200);
+    //setInterval(() => cambiarColores(tabla1), 2000);
+    //setInterval(() => cambiarColores(tabla2), 2000);
+  
+  
+    // Agregar un manejador de eventos al botón para alternar las tablas con efecto de carrusel
+  });
+</script>
+  
