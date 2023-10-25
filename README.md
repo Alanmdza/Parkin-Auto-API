@@ -35,9 +35,12 @@ The project is divided into two parts:
 
 1. **ESP32 Controller:** This component determines the status of each parking space using sensors and sends updates via HTTP to our API. The project utilizes the Wokwi simulation tool to simulate the system in a real-life environment.
 
+![image](https://github.com/Alanmdza/Parking-Auto-API/assets/126357766/8131ac79-7e0b-46f1-be39-42ba34d5dceb)
+
+
 2. **API:** The API itself handles requests to update the model and present information to viewers. It's developed using the JAVA Spark framework and uses the Velocity template engine.
 
-[IMAGEN: Diagram illustrating the system components]
+![image](https://github.com/Alanmdza/Parking-Auto-API/assets/126357766/9eb1933b-6888-4317-aa75-29e44b3a412d)
 
 ## Getting Started
 
@@ -45,7 +48,6 @@ To run the API, you only need JAVA and Maven to start the local Jetty server.
 
 To simulate the ESP32, you'll need the PlatformIO compiler and the Wokwi simulation environment, both of which can be installed as VS Code extensions. It's worth noting that at the time of developing this project, the Wokwi tool is under development, and the HTTP simulation library does not work correctly. To simulate the behavior of a real ESP32, we've added an application called Trigger that sends requests to the local server to initialize the Wokwi simulation and obtain ESP32 information to send to the API.
 
-[IMAGEN: Screenshot of the ESP32 simulation]
 
 The corresponding repositories are:
 
