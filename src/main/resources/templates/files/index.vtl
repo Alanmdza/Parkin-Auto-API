@@ -6,9 +6,27 @@
       </div>
       <ul class="navigation">
         <li class="parent"><a class="link" href="#">Monitorizacion</a></li>
-        <li class="parent"><a class="link" href="#">Login</a></li>
+        <li class="parent"><a class="link" href="javascript:void(0);" id="showRegistration">Login</a></li>
       </ul>
     </nav>
+    <div id="registrationForm" style="display: none;">
+        <h2>Formulario de Registro</h2>
+        <!-- Aquí coloca tu formulario de registro -->
+        <form>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <br>
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" required>
+            <br>
+            <button type="submit">Registrarse</button>
+        </form>
+        <div id="mensajeRegistroContainer">
+            <p id="mensajeRegistro"></p>
+            <button type="submit">Registrarse</button>
+        </div>
+    </div>
+    
 <div id="container">
   <input hidden type="radio" name="carousel-control" id="button_a" />
   <input hidden type="radio" name="carousel-control" id="button_b" checked />
