@@ -1,0 +1,25 @@
+<script>
+
+  function attemptLogin() {
+      // Obtén los datos del formulario
+      var username = document.getElementById("username").value;
+      var password = document.getElementById("password").value;
+
+     localStorage.setItem('usuario', 'admin');
+localStorage.setItem('contrasena', 'admin');
+
+// Obtener datos del almacenamiento local
+var storedUsername = localStorage.getItem('usuario');
+var storedPassword = localStorage.getItem('contrasena');
+
+      // Verifica si los datos coinciden
+      if (username === storedUsername && password === storedPassword) {
+        window.location.href ="http://localhost:4567/admin";
+        
+      } else {
+        alert('Nombre de usuario o contraseña incorrectos');
+        
+      }
+    }
+
+</script>

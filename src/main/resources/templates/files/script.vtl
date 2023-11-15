@@ -36,59 +36,26 @@
           console.error("Error:", error);
         });
     }
+
+    
   
     // Llamar a la función para cambiar colores cada 2 segundos en la primera tabla
     setInterval(()=>refrescar(),200);
     //setInterval(() => cambiarColores(tabla1), 2000);
     //setInterval(() => cambiarColores(tabla2), 2000);
   
-  
+     window.onload = function() {
+      var currentURL = window.location.href;
+
+      // Verifica si la URL contiene "/admin"
+      if (currentURL.includes("/admin")) {
+        document.getElementById("mensaje").innerHTML = "Bienvenido al área de administración.";
+      }
+    };
+    
     // Agregar un manejador de eventos al botón para alternar las tablas con efecto de carrusel
-    document.getElementById("showRegistration").addEventListener("click", function() {
-            var registrationForm = document.getElementById("registrationForm");
-            registrationForm.style.display = (registrationForm.style.display === "none") ? "block" : "none";
-            document.getElementById("registroButton").addEventListener("click", function() {
-            var nombre = document.getElementById("nombre").value;
-            var contrasena = document.getElementById("contrasena").value;
-
-            // Verificar el usuario y contraseña por defecto (esto es un ejemplo)
-            var usuarioPorDefecto = "admin";
-            var contrasenaPorDefecto = "admin";
-
-            var mensajeRegistro = document.getElementById("mensajeRegistro");
-            var registroForm = document.getElementById("registrationForm");
-            if (nombre === "admin" && contrasena === "admin") {
-                mensajeRegistro.textContent = "Inicio de sesión exitoso. ¡Bienvenido!";
-                mensajeRegistro.style.color = "green";
-                // Aquí puedes redirigir al usuario o realizar otras acciones después del inicio de sesión exitoso.
-            } else {
-                mensajeRegistro.textContent = "Credenciales incorrectas. Inténtalo de nuevo.";
-                mensajeRegistro.style.color = "red";
-                
-            }
-        });
-        });
+    
   });
-/*
-         document.getElementById("registroButton").addEventListener("click", function() {
-            var nombre = document.getElementById("nombre").value;
-            var contrasena = document.getElementById("contrasena").value;
 
-            // Verificar el usuario y contraseña por defecto (esto es un ejemplo)
-            var usuarioPorDefecto = "admin";
-            var contrasenaPorDefecto = "admin";
-
-            var mensajeRegistro = document.getElementById("mensajeRegistro");
-            var registroForm = document.getElementById("registrationForm");
-            if (nombre === "admin" && contrasena === "admin") {
-                mensajeRegistro.textContent = "Inicio de sesión exitoso. ¡Bienvenido!";
-                mensajeRegistro.style.color = "green";
-                // Aquí puedes redirigir al usuario o realizar otras acciones después del inicio de sesión exitoso.
-            } else {
-                mensajeRegistro.textContent = "Credenciales incorrectas. Inténtalo de nuevo.";
-                mensajeRegistro.style.color = "red";
-                
-            }
-        });*/
 </script>
   
