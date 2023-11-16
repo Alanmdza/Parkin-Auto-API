@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,7 +18,6 @@ import java.util.Date;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
 import com.google.gson.Gson;
-
 import spark.ModelAndView;
 import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
@@ -29,23 +27,22 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args) throws JsonMappingException, JsonProcessingException, JSONException {
 
+        //----------Setup---------------------------------------------------------------------------------------
+
         JSONObject jsonObject = new JSONObject(performHttpGet("http://localhost:8180"));
         JSONObject lugares = jsonObject.getJSONObject("lugares");
         enableCORS("*", "*", "*");
         Spark.get("/get", (req, res) -> {
             res.type("application/json"); // Cambia el tipo de contenido a JSON
             return lugares;
-
         });
-
-        // Lanzamos el thread del trigger
         Trigger trigger = Trigger.getInstance();
         Thread thread = new Thread(trigger);
         thread.start();
 
-        // --------------------------------------------------------------------------Routes
+        //----------Rutas---------------------------------------------------------------------------------------
 
-        Spark.get("/monitor", (req, res) -> {
+        get("/monitor", (req, res) -> {
             HashMap<String, Object> model = new HashMap<String, Object>();
             model.put("template", "templates/files/index.vtl");
             model.put("title", "Monitorizacion");
@@ -54,7 +51,7 @@ public class Main {
             return new VelocityTemplateEngine().render(new ModelAndView(model, "templates/layout.vtl"));
         });
 
-        Spark.get("/login", (req, res) -> {
+        get("/login", (req, res) -> {
             HashMap<String, Object> model = new HashMap<String, Object>();
             model.put("template", "templates/filestemplatelogin/index.vtl");
             model.put("title", "Login");
@@ -66,7 +63,7 @@ public class Main {
             return new VelocityTemplateEngine().render(new ModelAndView(model, "templates/layout.vtl"));
         });
 
-        Spark.get("/chequeo", (req, res) -> {
+        get("/chequeo", (req, res) -> {
             String nombreArchivo = "src\\main\\java\\usser.txt";
             Map<String, String> usuarios = new HashMap<>();
             try (BufferedReader br = new BufferedReader(new FileReader(nombreArchivo))) {
@@ -95,23 +92,17 @@ public class Main {
             return null;
         });
 
-        Spark.post("/post", (request, response) -> {
-            // Obtiene el cuerpo del POST
-            String body = request.body();
+        post("/post", (req, res) -> {
+            String body = req.body();
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(body);
             System.out.println(body);
-
             if (jsonNode.has("Segundos")) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
                 String horaSalida = dateFormat.format(new Date());
-
-                // Obtener la fecha actual
                 SimpleDateFormat fechaFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String fechaActual = fechaFormat.format(new Date());
-
                 try (Connection connection = DriverManager.getConnection("jdbc:sqlite:db.db")) {
-                    // Insertar datos en la tabla
                     String insertQuery = "INSERT INTO ocupaciones (Lugar, Patente, Duracion, HoraSalida, Fecha) VALUES (?, ?, ?, ?, ?)";
                     try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
                         preparedStatement.setString(1, jsonNode.get("lugar").asText());
@@ -126,7 +117,6 @@ public class Main {
                     e.printStackTrace();
                 }
             }
-
             JSONObject lugar = lugares.getJSONObject(jsonNode.get("lugar").asText());
             lugar.put("patente", jsonNode.get("patente").asText());
             lugar.put("ocupado", jsonNode.get("ocupado"));
@@ -134,17 +124,17 @@ public class Main {
             return "POST recibido con éxito";
         });
 
-        // Rutas privadas (requiere autenticación)
-        before("/admin/*", (request, response) -> {
-            // Verificar la autenticación aquí
-            if (!usuarioAutenticado(request)) {
-            response.redirect("/login");
+        //----------Rutas privadas (requiere autenticación)----------------------------------------------------------------
+
+        before("/admin/*", (req, res) -> {
+            if (!usuarioAutenticado(req)) {
+                res.redirect("/login");
             }
         });
 
-        get("/admin/logout", (request, response) -> {
-            request.session().invalidate();
-            response.redirect("/login");
+        get("/admin/logout", (req, res) -> {
+            req.session().invalidate();
+            res.redirect("/login");
             return null;
         });
 
@@ -157,27 +147,20 @@ public class Main {
             return new VelocityTemplateEngine().render(new ModelAndView(model, "templates/layout.vtl"));
         });
 
-        get("/admin/buscar/:patente", (request, response) -> {
+        get("/admin/buscar/:patente", (req, res) -> {
             String dbUrl = "jdbc:sqlite:db.db";
-            String patente = request.params(":patente");
-
+            String patente = req.params(":patente");
             try (Connection connection = DriverManager.getConnection(dbUrl)) {
-                // Consultar la base de datos
                 String query = "SELECT * FROM ocupaciones WHERE Patente = ?";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                     preparedStatement.setString(1, patente);
-
                     ResultSet resultSet = preparedStatement.executeQuery();
-
-                    // Construir una lista de resultados
                     List<Map<String, Object>> resultList = new ArrayList<>();
                     while (resultSet.next()) {
                         String lugar = resultSet.getString("Lugar");
                         double duracion = resultSet.getDouble("Duracion");
                         String horaSalida = resultSet.getString("HoraSalida");
                         String fecha = resultSet.getString("Fecha");
-
-                        // Modificar la estructura de datos para que coincida con el formato JSON válido
                         Map<String, Object> entry = new HashMap<>();
                         entry.put("fecha", fecha);
                         entry.put("lugar", lugar);
@@ -185,42 +168,33 @@ public class Main {
                         entry.put("horaSalida", horaSalida);
                         resultList.add(entry);
                     }
-
-                    // Devolver la lista como JSON
                     Gson gson = new Gson();
                     return gson.toJson(resultList); // asumiendo que tienes un objeto Gson (gson) configurado
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                response.status(500);
+                res.status(500);
                 return "Error interno del servidor";
             }
         });
 
     }
 
-    // -----------------------------------------------------------------------------------------------Métodos
+    //----------Métodos---------------------------------------------------------------------------------------
+
     private static String performHttpGet(String url) {
         String response = null;
         try {
-
-            // Abrir conexión
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setRequestMethod("GET");
-            // Obtener la respuesta
             int responseCode = connection.getResponseCode();
             System.out.println("Código de respuesta: " + responseCode);
-
-            // Leer la respuesta
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(connection.getInputStream());
-
-            // Almacenar la respuesta en el vector "viejo"
             response = jsonNode.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return response;
     }
 
@@ -238,7 +212,6 @@ public class Main {
         return letra;
     }
 
-    // Función para generar un número aleatorio de n dígitos
     private static String generarNumeroAleatorio(int n) {
         Random random = new Random();
         StringBuilder numero = new StringBuilder();
@@ -248,15 +221,11 @@ public class Main {
         return numero.toString();
     }
 
-    // Función para generar una patente argentina aleatoria
     public static String generarPatenteArgentina() {
         Random random = new Random();
-
         // Decide si la patente será de formato "LLLNNN" o "LLNNNLL"
         boolean formatoCorto = random.nextBoolean();
-
         StringBuilder patente = new StringBuilder();
-
         if (formatoCorto) {
             // Formato "LLLNNN"
             for (int i = 0; i < 3; i++) {
@@ -273,13 +242,10 @@ public class Main {
                 patente.append(generarLetraAleatoria());
             }
         }
-
         return patente.toString();
     }
 
     private static boolean usuarioAutenticado(spark.Request request) {
-        // Aquí puedes verificar la autenticación, por ejemplo, comprobando la
-        // existencia de una sesión
         return request.session().attribute("username") != null;
     }
 
