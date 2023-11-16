@@ -7,7 +7,20 @@
       // Verifica si los datos coinciden
       var url = "http://localhost:4567/chequeo?user=" + username+"&pass="+password;
       window.location.href = url;
-      
+     
     }
+    function verificarError() {
+            // Verifica la presencia del parámetro de error en la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const errorParam = urlParams.get('error');
+
+            // Si hay un parámetro de error igual a '1', muestra un mensaje de alerta
+            if (errorParam === '1') {
+                alert('Usuario o contraseña incorrectos');
+            }
+        }
+
+        // Registra la función para ejecutarse después de cargar todo el contenido de la página
+        document.addEventListener("DOMContentLoaded", verificarError);
 
 </script>
