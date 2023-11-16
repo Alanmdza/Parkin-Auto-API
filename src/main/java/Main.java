@@ -193,7 +193,7 @@ public class Main {
             }
         });
 
-        post("/hab", (req, res) -> {
+        post("/admin/hab", (req, res) -> {
             String lugar = req.queryParams("lugar");
             String operacion = req.queryParams("operacion");
             if (operacion.equalsIgnoreCase("deshabilitar")) {
