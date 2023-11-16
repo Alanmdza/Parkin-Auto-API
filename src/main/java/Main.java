@@ -1,7 +1,12 @@
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
+
 import org.json.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,7 +18,7 @@ import static spark.Spark.*;
 
 public class Main {
     public static void main(String[] args) throws JsonMappingException, JsonProcessingException, JSONException {
-        
+       
         JSONObject jsonObject = new JSONObject(performHttpGet("http://localhost:8180"));
         JSONObject lugares = jsonObject.getJSONObject("lugares");
         enableCORS("*", "*", "*");
@@ -46,8 +51,13 @@ public class Main {
             model.put("title", "Login");
             model.put("css", "templates/filestemplatelogin/style.vtl");
             model.put("js", "templates/filestemplatelogin/script.vtl");
+            if (req.queryParams("error") != null && req.queryParams("error").equals("1")) {
+                model.put("error", "Credenciales incorrectas. Inténtalo de nuevo.");
+            }
             return new VelocityTemplateEngine().render(new ModelAndView(model, "templates/layout.vtl"));
         });
+
+        
 
 //Modificar acá todo lo del admin??
           Spark.get("/admin", (req, res) -> {
@@ -59,6 +69,30 @@ public class Main {
             return new VelocityTemplateEngine().render(new ModelAndView(model, "templates/layout.vtl"));
         });
         
+        Spark.get("/chequeo", (req, res) -> { 
+             String nombreArchivo = "src\\main\\java\\usser.txt";
+            Map<String, String> usuarios = new HashMap<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(nombreArchivo))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                // Dividir la línea en usuario y contraseña (suponiendo que están separados por coma u otro carácter)
+                String[] partes = linea.split(",");
+                if (partes.length == 2) {
+                    String usuario = partes[0].trim();
+                    String contrasena = partes[1].trim();
+                    usuarios.put(usuario, contrasena);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (usuarios.containsKey(req.queryParams("user")) && usuarios.get(req.queryParams("user")).equals(req.queryParams("pass"))) {
+            res.redirect("/admin");
+        } else {
+           res.redirect("/login?error=1");
+        }
+            return null;
+        });
 
         Spark.post("/post", (request, response) -> {
             // Obtiene el cuerpo del POST
@@ -74,6 +108,7 @@ public class Main {
         });
 
     }
+
 
 
 
