@@ -27,20 +27,19 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args) throws JsonMappingException, JsonProcessingException, JSONException {
 
-        //----------Setup---------------------------------------------------------------------------------------
+        // ----------Setup---------------------------------------------------------------------------------------
 
-        JSONObject jsonObject = new JSONObject(performHttpGet("http://localhost:8180"));
-        JSONObject lugares = jsonObject.getJSONObject("lugares");
+        ModelDAO modelo = ModelDAO.getInstance();
         enableCORS("*", "*", "*");
         Spark.get("/get", (req, res) -> {
             res.type("application/json"); // Cambia el tipo de contenido a JSON
-            return lugares;
+            return modelo.getLugares();
         });
         Trigger trigger = Trigger.getInstance();
         Thread thread = new Thread(trigger);
         thread.start();
 
-        //----------Rutas---------------------------------------------------------------------------------------
+        // ----------Rutas---------------------------------------------------------------------------------------
 
         get("/monitor", (req, res) -> {
             HashMap<String, Object> model = new HashMap<String, Object>();
@@ -117,14 +116,15 @@ public class Main {
                     e.printStackTrace();
                 }
             }
-            JSONObject lugar = lugares.getJSONObject(jsonNode.get("lugar").asText());
+            JSONObject lugar = modelo.getLugares().getJSONObject(jsonNode.get("lugar").asText());
             lugar.put("patente", jsonNode.get("patente").asText());
             lugar.put("ocupado", jsonNode.get("ocupado"));
-            lugares.put(jsonNode.get("lugar").asText(), lugar);
+            modelo.getLugares().put(jsonNode.get("lugar").asText(), lugar);
             return "POST recibido con éxito";
         });
 
-        //----------Rutas privadas (requiere autenticación)----------------------------------------------------------------
+        // ----------Rutas privadas (requiere
+        // autenticación)----------------------------------------------------------------
 
         before("/admin/*", (req, res) -> {
             if (!usuarioAutenticado(req)) {
@@ -178,11 +178,16 @@ public class Main {
             }
         });
 
+        post("/admin/hab/:patente", (req, res) -> {
+            String lugar = req.params("lugar");
+            String operacion  = req.params("operacion");
+            return "Error interno del servidor";
+        });
     }
 
-    //----------Métodos---------------------------------------------------------------------------------------
+    // ----------Métodos---------------------------------------------------------------------------------------
 
-    private static String performHttpGet(String url) {
+    public static String performHttpGet(String url) {
         String response = null;
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
