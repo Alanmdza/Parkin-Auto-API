@@ -1,12 +1,17 @@
 import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Model {
-    JSONObject jsonObject = new JSONObject(Main.performHttpGet("http://localhost:8180"));
-    JSONObject lugares = jsonObject.getJSONObject("lugares");
+    private JSONObject jsonObject = new JSONObject(Main.performHttpGet("http://localhost:8180"));
+    private JSONObject lugares = jsonObject.getJSONObject("lugares");
+    private List<String> deshabilitados = new ArrayList<>();
 
-    public JSONObject getLugares(){
+    public JSONObject getLugares() {
         return lugares;
     }
 
-    
+    public List<String> getHabilitados() {
+        return deshabilitados;
+    }
 }
