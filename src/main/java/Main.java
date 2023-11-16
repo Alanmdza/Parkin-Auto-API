@@ -26,10 +26,9 @@ import spark.template.velocity.VelocityTemplateEngine;
 import static spark.Spark.*;
 import java.util.Random;
 
-
 public class Main {
     public static void main(String[] args) throws JsonMappingException, JsonProcessingException, JSONException {
-        
+
         JSONObject jsonObject = new JSONObject(performHttpGet("http://localhost:8180"));
         JSONObject lugares = jsonObject.getJSONObject("lugares");
         enableCORS("*", "*", "*");
@@ -67,41 +66,35 @@ public class Main {
             return new VelocityTemplateEngine().render(new ModelAndView(model, "templates/layout.vtl"));
         });
 
-//Modificar acá todo lo del admin??
-          Spark.get("/admin", (req, res) -> {
-            HashMap<String, Object> model = new HashMap<String, Object>();
-            model.put("template", "templates/admin/index.vtl");
-            model.put("title", "Admin");
-            model.put("css", "templates/admin/style.vtl");
-            model.put("js", "templates/admin/script.vtl");
-            return new VelocityTemplateEngine().render(new ModelAndView(model, "templates/layout.vtl"));
-        });
-        
-
-        Spark.get("/chequeo", (req, res) -> { 
+        Spark.get("/chequeo", (req, res) -> {
             String nombreArchivo = "src\\main\\java\\usser.txt";
-           Map<String, String> usuarios = new HashMap<>();
-       try (BufferedReader br = new BufferedReader(new FileReader(nombreArchivo))) {
-           String linea;
-           while ((linea = br.readLine()) != null) {
-               // Dividir la línea en usuario y contraseña (suponiendo que están separados por coma u otro carácter)
-               String[] partes = linea.split(",");
-               if (partes.length == 2) {
-                   String usuario = partes[0].trim();
-                   String contrasena = partes[1].trim();
-                   usuarios.put(usuario, contrasena);
-               }
-           }
-       } catch (IOException e) {
-           e.printStackTrace();
-       }
-       if (usuarios.containsKey(req.queryParams("user")) && usuarios.get(req.queryParams("user")).equals(req.queryParams("pass"))) {
-           res.redirect("/admin");
-       } else {
-          res.redirect("/login?error=1");
-       }
-           return null;
-       });
+            Map<String, String> usuarios = new HashMap<>();
+            try (BufferedReader br = new BufferedReader(new FileReader(nombreArchivo))) {
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    // Dividir la línea en usuario y contraseña (suponiendo que están separados por
+                    // coma u otro carácter)
+                    String[] partes = linea.split(",");
+                    if (partes.length == 2) {
+                        String usuario = partes[0].trim();
+                        String contrasena = partes[1].trim();
+                        usuarios.put(usuario, contrasena);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (usuarios.containsKey(req.queryParams("user"))
+                    && usuarios.get(req.queryParams("user")).equals(req.queryParams("pass"))) {
+                req.session(true).attribute("username", req.queryParams("user"));
+                res.redirect("/admin/control");
+                return null;
+            } else {
+                res.redirect("/login?error=1");
+            }
+            return null;
+        });
+
         Spark.post("/post", (request, response) -> {
             // Obtiene el cuerpo del POST
             String body = request.body();
@@ -112,11 +105,11 @@ public class Main {
             if (jsonNode.has("Segundos")) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
                 String horaSalida = dateFormat.format(new Date());
-                
+
                 // Obtener la fecha actual
                 SimpleDateFormat fechaFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String fechaActual = fechaFormat.format(new Date());
-            
+
                 try (Connection connection = DriverManager.getConnection("jdbc:sqlite:db.db")) {
                     // Insertar datos en la tabla
                     String insertQuery = "INSERT INTO ocupaciones (Lugar, Patente, Duracion, HoraSalida, Fecha) VALUES (?, ?, ?, ?, ?)";
@@ -141,19 +134,41 @@ public class Main {
             return "POST recibido con éxito";
         });
 
-        // Definir la ruta de Spark
-        get("/buscar/:patente", (request, response) -> {
+        // Rutas privadas (requiere autenticación)
+        before("/admin/*", (request, response) -> {
+            // Verificar la autenticación aquí
+            if (!usuarioAutenticado(request)) {
+            response.redirect("/login");
+            }
+        });
+
+        get("/admin/logout", (request, response) -> {
+            request.session().invalidate();
+            response.redirect("/login");
+            return null;
+        });
+
+        Spark.get("/admin/control", (req, res) -> {
+            HashMap<String, Object> model = new HashMap<String, Object>();
+            model.put("template", "templates/admin/index.vtl");
+            model.put("title", "Admin");
+            model.put("css", "templates/admin/style.vtl");
+            model.put("js", "templates/admin/script.vtl");
+            return new VelocityTemplateEngine().render(new ModelAndView(model, "templates/layout.vtl"));
+        });
+
+        get("/admin/buscar/:patente", (request, response) -> {
             String dbUrl = "jdbc:sqlite:db.db";
             String patente = request.params(":patente");
-        
+
             try (Connection connection = DriverManager.getConnection(dbUrl)) {
                 // Consultar la base de datos
                 String query = "SELECT * FROM ocupaciones WHERE Patente = ?";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                     preparedStatement.setString(1, patente);
-        
+
                     ResultSet resultSet = preparedStatement.executeQuery();
-        
+
                     // Construir una lista de resultados
                     List<Map<String, Object>> resultList = new ArrayList<>();
                     while (resultSet.next()) {
@@ -161,7 +176,7 @@ public class Main {
                         double duracion = resultSet.getDouble("Duracion");
                         String horaSalida = resultSet.getString("HoraSalida");
                         String fecha = resultSet.getString("Fecha");
-        
+
                         // Modificar la estructura de datos para que coincida con el formato JSON válido
                         Map<String, Object> entry = new HashMap<>();
                         entry.put("fecha", fecha);
@@ -170,7 +185,7 @@ public class Main {
                         entry.put("horaSalida", horaSalida);
                         resultList.add(entry);
                     }
-        
+
                     // Devolver la lista como JSON
                     Gson gson = new Gson();
                     return gson.toJson(resultList); // asumiendo que tienes un objeto Gson (gson) configurado
@@ -260,6 +275,12 @@ public class Main {
         }
 
         return patente.toString();
+    }
+
+    private static boolean usuarioAutenticado(spark.Request request) {
+        // Aquí puedes verificar la autenticación, por ejemplo, comprobando la
+        // existencia de una sesión
+        return request.session().attribute("username") != null;
     }
 
 }

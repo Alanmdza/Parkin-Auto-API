@@ -23,51 +23,49 @@
     height: 100vh;
     background: linear-gradient(45deg, #717171 0%, #dcdcdc 100%);
   }
+  label {
+    margin-bottom: 8px;
+    display: block;
+  }
 
-  h1 {
-            color: #333;
-        }
+  input {
+    padding: 8px;
+    margin-bottom: 16px;
+    width: 200px;
+  }
 
-        label {
-            margin-bottom: 8px;
-            display: block;
-        }
+  button {
+    padding: 10px;
+    background-color: chartreuse;
+    color: #212121;
+    border: none;
+    cursor: pointer;
+  }
 
-        input {
-            padding: 8px;
-            margin-bottom: 16px;
-            width: 200px;
-        }
+  #resultados {
+    margin-top: 20px;
+  }
 
-        button {
-            padding: 10px;
-            background-color:  chartreuse;
-            color: #212121;
-            border: none;
-            cursor: pointer;
-        }
-        #resultados {
-            margin-top: 20px;
-        }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
 
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
+  th,
+  td {
+    padding: 12px;
+    text-align: center;
+  }
 
-        th, td {
-            padding: 12px;
-            text-align: center;
-        }
+  th {
+    background-color: chartreuse;
+    color: 212121;
+  }
 
-        th {
-            background-color: chartreuse;
-            color: 212121;
-        }
+  td:last-child {
+    text-align: right;
+  }
 
-        td:last-child {
-            text-align: right;
-        }
   #container {
     display: flex;
     justify-content: center;
@@ -76,7 +74,7 @@
 
   }
 
-  
+
   .p-wrapper {
     position: relative;
     width: 100%;
@@ -124,7 +122,7 @@
     background-color: #222;
   }
 
-  
+
   body .signature {
     font-style: italic;
     font-size: 12px;
@@ -266,5 +264,9 @@
   .invisible {
     opacity: 0 !important;
     transform: translate(50px, 0);
+  }
+
+  .ResultadosHeader{
+    display: none;
   }
 </style>

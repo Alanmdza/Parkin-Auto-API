@@ -4,7 +4,7 @@
 
       // Realizar la solicitud HTTP
       var xhr = new XMLHttpRequest();
-      xhr.open("GET", "http://localhost:4567/buscar/" + patente, true);
+      xhr.open("GET", "http://localhost:4567/admin/buscar/" + patente, true);
       xhr.onreadystatechange = function () {
           if (xhr.readyState == 4 && xhr.status == 200) {
               var resultados = JSON.parse(xhr.responseText);
@@ -15,6 +15,9 @@
   }
 
   function mostrarResultados(resultados) {
+    var resultadosHeader = document.querySelector('.ResultadosHeader');
+    resultadosHeader.style.display = 'block'; // o 'inline', 'flex', u otra propiedad que desees
+
       var resultadosDiv = document.getElementById("resultados");
       resultadosDiv.innerHTML = ""; // Limpiar resultados anteriores
 
