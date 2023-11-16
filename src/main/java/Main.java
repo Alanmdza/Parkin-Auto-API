@@ -78,7 +78,7 @@ public class Main {
         });
 
         get("/chequeo", (req, res) -> {
-            String nombreArchivo = "src\\main\\java\\usser.txt";
+            String nombreArchivo = "src/main/java/usser.txt";
             Map<String, String> usuarios = new HashMap<>();
             try (BufferedReader br = new BufferedReader(new FileReader(nombreArchivo))) {
                 String linea;
