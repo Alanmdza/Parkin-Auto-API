@@ -11,7 +11,8 @@ public class Model {
         return lugares;
     }
 
-    public List<String> getHabilitados() {
+    public List<String> getDeshabilitados() {
         return deshabilitados;
     }
+    
 }

@@ -1,3 +1,4 @@
+import java.util.List;
 import org.json.JSONObject;
 
 public class ModelDAO {
@@ -16,5 +17,9 @@ public class ModelDAO {
 
     public JSONObject getLugares(){
         return model.getLugares();
+    }
+
+    public List<String> getDeshabilitados() {
+        return model.getDeshabilitados();
     }
 }

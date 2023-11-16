@@ -31,15 +31,29 @@ public class Main {
 
         ModelDAO modelo = ModelDAO.getInstance();
         enableCORS("*", "*", "*");
-        Spark.get("/get", (req, res) -> {
-            res.type("application/json"); // Cambia el tipo de contenido a JSON
-            return modelo.getLugares();
-        });
         Trigger trigger = Trigger.getInstance();
         Thread thread = new Thread(trigger);
         thread.start();
 
         // ----------Rutas---------------------------------------------------------------------------------------
+
+        get("/get", (req, res) -> {
+            res.type("application/json"); // Cambia el tipo de contenido a JSON
+            return modelo.getLugares();
+        });
+
+        get("/getDeshab", (req, res) -> {
+            res.type("application/json"); // Cambia el tipo de contenido a JSON
+            
+            // Obtén la lista de lugares deshabilitados (asumiendo que modelo.getDeshabilitados() devuelve una lista de Strings)
+            List<String> deshabilitados = modelo.getDeshabilitados();
+            
+            // Convierte la lista a JSON usando Gson
+            String jsonDeshabilitados = new Gson().toJson(deshabilitados);
+            
+            // Devuelve la cadena JSON como respuesta
+            return jsonDeshabilitados;
+        });
 
         get("/monitor", (req, res) -> {
             HashMap<String, Object> model = new HashMap<String, Object>();
@@ -178,9 +192,24 @@ public class Main {
             }
         });
 
-        post("/admin/hab/:patente", (req, res) -> {
-            String lugar = req.params("lugar");
-            String operacion  = req.params("operacion");
+        post("/hab", (req, res) -> {
+            String lugar = req.queryParams("lugar");
+            String operacion = req.queryParams("operacion");
+            if (operacion.equalsIgnoreCase("deshabilitar")) {
+                if (!modelo.getDeshabilitados().contains(lugar)) {
+                    modelo.getDeshabilitados().add(lugar);
+                    return "Deshabilitado";
+                } else {
+                    return "Error 601";
+                }
+            } else if (operacion.equalsIgnoreCase("habilitar")) {
+                if (modelo.getDeshabilitados().contains(lugar)) {
+                    modelo.getDeshabilitados().remove(lugar);
+                    return "Habilitado";
+                } else {
+                    return "Error 602";
+                }
+            }
             return "Error interno del servidor";
         });
     }

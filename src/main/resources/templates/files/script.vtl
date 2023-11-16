@@ -1,50 +1,80 @@
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
     const tabla1 = document.getElementById("tabla1");
     const tabla2 = document.getElementById("tabla2");
     const tableContainer = document.querySelector(".table-container");
-  
-    function refrescar() {
-      fetch("http://localhost:4567/get")
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("La solicitud no fue exitosa");
-          }
-          return response.json(); // Convierte la respuesta en JSON
-        })
-        .then((data) => {
-          // Recorrer todos los lugares en el JSON
-          for (const lugar in data) {
-            if (data.hasOwnProperty(lugar)) {
-              const ocupado = data[lugar].ocupado;
-              const celda = document.getElementById(lugar);
-    
-              if (ocupado === true || ocupado === "true") {
-                // Lugar ocupado
-                celda.classList.remove("verde");
-                celda.classList.add("rojo");
-              } else {
-                // Lugar libre
-                celda.classList.remove("rojo");
-                celda.classList.add("verde");
-              }
-            }
-          }
-        })
-        .catch((error) => {
-          // Manejar errores
-          console.error("Error:", error);
-        });
-    }
 
     
-  
+    function refrescar() {
+    fetch("http://localhost:4567/get")
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("La solicitud no fue exitosa");
+            }
+            return response.json(); // Convierte la respuesta en JSON
+        })
+        .then((data) => {
+            // Obtener lugares deshabilitados
+            fetch("http://localhost:4567/getDeshab")
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("La solicitud no fue exitosa");
+                    }
+                    return response.json(); // Trata la respuesta como un objeto JSON
+                })
+                .then((baneados) => {
+                    // Recorrer todos los lugares en el JSON
+                    for (const lugar in data) {
+                        if (data.hasOwnProperty(lugar)) {
+                            const ocupado = data[lugar].ocupado;
+                            const celda = document.getElementById(lugar);
+
+                            // Verificar si el lugar está en la lista de deshabilitados
+                            const esBaneado = baneados.includes(lugar);
+
+                            if (esBaneado) {
+                                if (ocupado) {
+                                    // Lugar deshabilitado y ocupado
+                                    celda.classList.remove("verde", "rojo", "gris");
+                                    celda.classList.add("amarillo");
+                                } else {
+                                    // Lugar deshabilitado y no ocupado
+                                    celda.classList.remove("verde", "rojo");
+                                    celda.classList.add("gris");
+                                }
+                            } else if (ocupado === true || ocupado === "true") {
+                                // Lugar ocupado
+                                celda.classList.remove("verde", "gris", "amarillo");
+                                celda.classList.add("rojo");
+                            } else {
+                                // Lugar libre
+                                celda.classList.remove("rojo", "gris", "amarillo");
+                                celda.classList.add("verde");
+                            }
+                        }
+                    }
+                })
+                .catch((error) => {
+                    // Manejar errores de la solicitud de lugares deshabilitados
+                    console.error("Error al obtener lugares deshabilitados:", error);
+                });
+        })
+        .catch((error) => {
+            // Manejar errores de la solicitud principal
+            console.error("Error:", error);
+        });
+}
+
+
+
+
+
     // Llamar a la función para cambiar colores cada 2 segundos en la primera tabla
-    setInterval(()=>refrescar(),200);
+    setInterval(() => refrescar(), 200);
     //setInterval(() => cambiarColores(tabla1), 2000);
     //setInterval(() => cambiarColores(tabla2), 2000);
-  
-     window.onload = function() {
+
+    window.onload = function () {
       var currentURL = window.location.href;
 
       // Verifica si la URL contiene "/admin"
@@ -52,10 +82,9 @@
         document.getElementById("mensaje").innerHTML = "Bienvenido al área de administración.";
       }
     };
-    
+
     // Agregar un manejador de eventos al botón para alternar las tablas con efecto de carrusel
-    
+
   });
 
 </script>
-  
