@@ -36,14 +36,26 @@
           console.error("Error:", error);
         });
     }
+
+    
   
     // Llamar a la función para cambiar colores cada 2 segundos en la primera tabla
     setInterval(()=>refrescar(),200);
     //setInterval(() => cambiarColores(tabla1), 2000);
     //setInterval(() => cambiarColores(tabla2), 2000);
   
-  
+     window.onload = function() {
+      var currentURL = window.location.href;
+
+      // Verifica si la URL contiene "/admin"
+      if (currentURL.includes("/admin")) {
+        document.getElementById("mensaje").innerHTML = "Bienvenido al área de administración.";
+      }
+    };
+    
     // Agregar un manejador de eventos al botón para alternar las tablas con efecto de carrusel
+    
   });
+
 </script>
   

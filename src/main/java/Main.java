@@ -2,19 +2,18 @@
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-
 import org.json.*;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
-
 import spark.ModelAndView;
 import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
-
 import static spark.Spark.*;
 
 public class Main {
     public static void main(String[] args) throws JsonMappingException, JsonProcessingException, JSONException {
+        
         JSONObject jsonObject = new JSONObject(performHttpGet("http://localhost:8180"));
         JSONObject lugares = jsonObject.getJSONObject("lugares");
         enableCORS("*", "*", "*");
@@ -24,6 +23,14 @@ public class Main {
 
         });
 
+        //Lanzamos el thread del trigger
+        Trigger trigger = Trigger.getInstance();
+        Thread thread = new Thread(trigger);
+        thread.start();
+
+
+        //--------------------------------------------------------------------------Routes
+
         Spark.get("/monitor", (req, res) -> {
             HashMap<String, Object> model = new HashMap<String, Object>();
             model.put("template", "templates/files/index.vtl");
@@ -32,6 +39,26 @@ public class Main {
             model.put("js", "templates/files/script.vtl");
             return new VelocityTemplateEngine().render(new ModelAndView(model, "templates/layout.vtl"));
         });
+
+          Spark.get("/login", (req, res) -> {
+            HashMap<String, Object> model = new HashMap<String, Object>();
+            model.put("template", "templates/filestemplatelogin/index.vtl");
+            model.put("title", "Login");
+            model.put("css", "templates/filestemplatelogin/style.vtl");
+            model.put("js", "templates/filestemplatelogin/script.vtl");
+            return new VelocityTemplateEngine().render(new ModelAndView(model, "templates/layout.vtl"));
+        });
+
+//Modificar acá todo lo del admin??
+          Spark.get("/admin", (req, res) -> {
+            HashMap<String, Object> model = new HashMap<String, Object>();
+            model.put("template", "templates/files/index.vtl");
+            model.put("title", "Monitorizacion");
+            model.put("css", "templates/files/style.vtl");
+            model.put("js", "templates/files/script.vtl");
+            return new VelocityTemplateEngine().render(new ModelAndView(model, "templates/layout.vtl"));
+        });
+        
 
         Spark.post("/post", (request, response) -> {
             // Obtiene el cuerpo del POST
@@ -48,6 +75,11 @@ public class Main {
 
     }
 
+
+
+
+
+    //-----------------------------------------------------------------------------------------------Métodos
     private static String performHttpGet(String url) {
         String response = null;
         try {

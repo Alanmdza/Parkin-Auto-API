@@ -1,262 +1,279 @@
-<body>
-  <nav class="navigationWrapper">
-      <div class="logoWrapper">
+<nav class="navigationWrapper">
+    <div class="logoWrapper">
         <span class="stylish">Parkin</span>
         <span class="logo">Auto</span>
-      </div>
-      <ul class="navigation">
+        <span id="mensaje" </span>
+    </div>
+    <ul class="navigation">
         <li class="parent"><a class="link" href="#">Monitorizacion</a></li>
-        <li class="parent"><a class="link" href="#">Login</a></li>
-      </ul>
-    </nav>
+        <li class="parent"><a class="link" href="login" id="showRegistration">Login</a></li>
+    </ul>
+</nav>
+
+<div id="registrationForm" style="display: none;">
+    <h2>Formulario de Registro</h2>
+    <!-- Aquí coloca tu formulario de registro -->
+    <form>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <br>
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" required>
+        <br>
+        <button type="submit">Registrarse</button>
+    </form>
+    <div id="mensajeRegistroContainer">
+        <p id="mensajeRegistro"></p>
+        <button type="submit">Registrarse</button>
+    </div>
+</div>
+
 <div id="container">
-  <input hidden type="radio" name="carousel-control" id="button_a" />
-  <input hidden type="radio" name="carousel-control" id="button_b" checked />
-  <div id="carousel">
-      <div class="p-wrapper">
-          <section class="panel_a">
-              <table id="tabla1">
-                  <tbody>
-                      <!-- Crear filas y columnas -->
-                      <tr>
-                          <td class="verde" id="C1">C1</td>
-                          <td class="verde" id="C2">C2</td>
-                          <td class="verde" id="C3">C3</td>
-                          <td class="verde" id="C4">C4</td>
-                          <td class="verde" id="C5">C5</td>
-                          <td class="verde" id="C6">C6</td>
-                          <td class="verde" id="C7">C7</td>
-                          <td class="verde" id="C8">C8</td>
-                          <td class="verde" id="C9">C9</td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="verde" id="D1">D1</td>
-                          <td class="verde" id="D2">D2</td>
-                          <td class="verde" id="D3">D3</td>
-                          <td class="verde" id="D4">D4</td>
-                          <td class="verde" id="D5">D5</td>
-                          <td class="verde" id="D6">D6</td>
-                          <td class="verde" id="D7">D7</td>
-                          <td class="verde" id="D8">D8</td>
-                          <td class="verde" id="D9">D9</td>
-                      </tr>
-                      <tr>
-                          <td class="verde" id="C10">C10</td>
-                          <td class="verde" id="C11">C11</td>
-                          <td class="verde" id="C12">C12</td>
-                          <td class="verde" id="C13">C13</td>
-                          <td class="verde" id="C14">C14</td>
-                          <td class="verde" id="C15">C15</td>
-                          <td class="verde" id="C16">C16</td>
-                          <td class="verde" id="C17">C17</td>
-                          <td class="verde" id="C18">C18</td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="verde" id="D10">D10</td>
-                          <td class="verde" id="D11">D11</td>
-                          <td class="verde" id="D12">D12</td>
-                          <td class="verde" id="D13">D13</td>
-                          <td class="verde" id="D14">D14</td>
-                          <td class="verde" id="D15">D15</td>
-                          <td class="verde" id="D16">D16</td>
-                          <td class="verde" id="D17">D17</td>
-                          <td class="verde" id="D18">D18</td>
-                      </tr>
-                      <tr>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                      </tr>
-                      <tr>
-                          <td class="verde" id="G1">G1</td>
-                          <td class="verde" id="G2">G2</td>
-                          <td class="verde" id="G3">G3</td>
-                          <td class="verde" id="G4">G4</td>
-                          <td class="verde" id="G5">G5</td>
-                          <td class="verde" id="G6">G6</td>
-                          <td class="verde" id="G7">G7</td>
-                          <td class="verde" id="G8">G8</td>
-                          <td class="verde" id="G9">G9</td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="verde" id="H1">H1</td>
-                          <td class="verde" id="H2">H2</td>
-                          <td class="verde" id="H3">H3</td>
-                          <td class="verde" id="H4">H4</td>
-                          <td class="verde" id="H5">H5</td>
-                          <td class="verde" id="H6">H6</td>
-                          <td class="verde" id="H7">H7</td>
-                          <td class="verde" id="H8">H8</td>
-                          <td class="verde" id="H9">H9</td>
-                      </tr>
-                      <tr>
-                          <td class="verde" id="G10">G10</td>
-                          <td class="verde" id="G11">G11</td>
-                          <td class="verde" id="G12">G12</td>
-                          <td class="verde" id="G13">G13</td>
-                          <td class="verde" id="G14">G14</td>
-                          <td class="verde" id="G15">G15</td>
-                          <td class="verde" id="G16">G16</td>
-                          <td class="verde" id="G17">G17</td>
-                          <td class="verde" id="G18">G18</td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="verde" id="H10">H10</td>
-                          <td class="verde" id="H11">H11</td>
-                          <td class="verde" id="H12">H12</td>
-                          <td class="verde" id="H13">H13</td>
-                          <td class="verde" id="H14">H14</td>
-                          <td class="verde" id="H15">H15</td>
-                          <td class="verde" id="H16">H16</td>
-                          <td class="verde" id="H17">H17</td>
-                          <td class="verde" id="H18">H18</td>
-                      </tr>
-                  </tbody>
-              </table>
-          </section>
+    <input hidden type="radio" name="carousel-control" id="button_a" />
+    <input hidden type="radio" name="carousel-control" id="button_b" checked />
+    <div id="carousel">
+        <div class="p-wrapper">
+            <section class="panel_a">
+                <table id="tabla1">
+                    <tbody>
+                        <!-- Crear filas y columnas -->
+                        <tr>
+                            <td class="verde" id="C1">C1</td>
+                            <td class="verde" id="C2">C2</td>
+                            <td class="verde" id="C3">C3</td>
+                            <td class="verde" id="C4">C4</td>
+                            <td class="verde" id="C5">C5</td>
+                            <td class="verde" id="C6">C6</td>
+                            <td class="verde" id="C7">C7</td>
+                            <td class="verde" id="C8">C8</td>
+                            <td class="verde" id="C9">C9</td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="verde" id="D1">D1</td>
+                            <td class="verde" id="D2">D2</td>
+                            <td class="verde" id="D3">D3</td>
+                            <td class="verde" id="D4">D4</td>
+                            <td class="verde" id="D5">D5</td>
+                            <td class="verde" id="D6">D6</td>
+                            <td class="verde" id="D7">D7</td>
+                            <td class="verde" id="D8">D8</td>
+                            <td class="verde" id="D9">D9</td>
+                        </tr>
+                        <tr>
+                            <td class="verde" id="C10">C10</td>
+                            <td class="verde" id="C11">C11</td>
+                            <td class="verde" id="C12">C12</td>
+                            <td class="verde" id="C13">C13</td>
+                            <td class="verde" id="C14">C14</td>
+                            <td class="verde" id="C15">C15</td>
+                            <td class="verde" id="C16">C16</td>
+                            <td class="verde" id="C17">C17</td>
+                            <td class="verde" id="C18">C18</td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="verde" id="D10">D10</td>
+                            <td class="verde" id="D11">D11</td>
+                            <td class="verde" id="D12">D12</td>
+                            <td class="verde" id="D13">D13</td>
+                            <td class="verde" id="D14">D14</td>
+                            <td class="verde" id="D15">D15</td>
+                            <td class="verde" id="D16">D16</td>
+                            <td class="verde" id="D17">D17</td>
+                            <td class="verde" id="D18">D18</td>
+                        </tr>
+                        <tr>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                        </tr>
+                        <tr>
+                            <td class="verde" id="G1">G1</td>
+                            <td class="verde" id="G2">G2</td>
+                            <td class="verde" id="G3">G3</td>
+                            <td class="verde" id="G4">G4</td>
+                            <td class="verde" id="G5">G5</td>
+                            <td class="verde" id="G6">G6</td>
+                            <td class="verde" id="G7">G7</td>
+                            <td class="verde" id="G8">G8</td>
+                            <td class="verde" id="G9">G9</td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="verde" id="H1">H1</td>
+                            <td class="verde" id="H2">H2</td>
+                            <td class="verde" id="H3">H3</td>
+                            <td class="verde" id="H4">H4</td>
+                            <td class="verde" id="H5">H5</td>
+                            <td class="verde" id="H6">H6</td>
+                            <td class="verde" id="H7">H7</td>
+                            <td class="verde" id="H8">H8</td>
+                            <td class="verde" id="H9">H9</td>
+                        </tr>
+                        <tr>
+                            <td class="verde" id="G10">G10</td>
+                            <td class="verde" id="G11">G11</td>
+                            <td class="verde" id="G12">G12</td>
+                            <td class="verde" id="G13">G13</td>
+                            <td class="verde" id="G14">G14</td>
+                            <td class="verde" id="G15">G15</td>
+                            <td class="verde" id="G16">G16</td>
+                            <td class="verde" id="G17">G17</td>
+                            <td class="verde" id="G18">G18</td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="verde" id="H10">H10</td>
+                            <td class="verde" id="H11">H11</td>
+                            <td class="verde" id="H12">H12</td>
+                            <td class="verde" id="H13">H13</td>
+                            <td class="verde" id="H14">H14</td>
+                            <td class="verde" id="H15">H15</td>
+                            <td class="verde" id="H16">H16</td>
+                            <td class="verde" id="H17">H17</td>
+                            <td class="verde" id="H18">H18</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
 
-          <section class="panel_b">
-              <table id="tabla2">
-                  <tbody>
-                      <!-- Crear filas y columnas -->
-                      <tr>
-                          <td class="verde" id="A1">A1</td>
-                          <td class="verde" id="A2">A2</td>
-                          <td class="verde" id="A3">A3</td>
-                          <td class="verde" id="A4">A4</td>
-                          <td class="verde" id="A5">A5</td>
-                          <td class="verde" id="A6">A6</td>
-                          <td class="verde" id="A7">A7</td>
-                          <td class="verde" id="A8">A8</td>
-                          <td class="verde" id="A9">A9</td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="verde" id="B1">B1</td>
-                          <td class="verde" id="B2">B2</td>
-                          <td class="verde" id="B3">B3</td>
-                          <td class="verde" id="B4">B4</td>
-                          <td class="verde" id="B5">B5</td>
-                          <td class="verde" id="B6">B6</td>
-                          <td class="verde" id="B7">B7</td>
-                          <td class="verde" id="B8">B8</td>
-                          <td class="verde" id="B9">B9</td>
-                      </tr>
-                      <tr>
-                          <td class="verde" id="A10">A10</td>
-                          <td class="verde" id="A11">A11</td>
-                          <td class="verde" id="A12">A12</td>
-                          <td class="verde" id="A13">A13</td>
-                          <td class="verde" id="A14">A14</td>
-                          <td class="verde" id="A15">A15</td>
-                          <td class="verde" id="A16">A16</td>
-                          <td class="verde" id="A17">A17</td>
-                          <td class="verde" id="A18">A18</td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="verde" id="B10">B10</td>
-                          <td class="verde" id="B11">B11</td>
-                          <td class="verde" id="B12">B12</td>
-                          <td class="verde" id="B13">B13</td>
-                          <td class="verde" id="B14">B14</td>
-                          <td class="verde" id="B15">B15</td>
-                          <td class="verde" id="B16">B16</td>
-                          <td class="verde" id="B17">B17</td>
-                          <td class="verde" id="B18">B18</td>
-                      </tr>
-                      <tr>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                      </tr>
-                      <tr>
-                          <td class="verde" id="E1">E1</td>
-                          <td class="verde" id="E2">E2</td>
-                          <td class="verde" id="E3">E3</td>
-                          <td class="verde" id="E4">E4</td>
-                          <td class="verde" id="E5">E5</td>
-                          <td class="verde" id="E6">E6</td>
-                          <td class="verde" id="E7">E7</td>
-                          <td class="verde" id="E8">E8</td>
-                          <td class="verde" id="E9">E9</td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="verde" id="F1">F1</td>
-                          <td class="verde" id="F2">F2</td>
-                          <td class="verde" id="F3">F3</td>
-                          <td class="verde" id="F4">F4</td>
-                          <td class="verde" id="F5">F5</td>
-                          <td class="verde" id="F6">F6</td>
-                          <td class="verde" id="F7">F7</td>
-                          <td class="verde" id="F8">F8</td>
-                          <td class="verde" id="F9">F9</td>
-                      </tr>
-                      <tr>
-                          <td class="verde" id="E10">E10</td>
-                          <td class="verde" id="E11">E11</td>
-                          <td class="verde" id="E12">E12</td>
-                          <td class="verde" id="E13">E13</td>
-                          <td class="verde" id="E14">E14</td>
-                          <td class="verde" id="E15">E15</td>
-                          <td class="verde" id="E16">E16</td>
-                          <td class="verde" id="E17">E17</td>
-                          <td class="verde" id="E18">E18</td>
-                          <td class="asfalto"></td>
-                          <td class="asfalto"></td>
-                          <td class="verde" id="F10">F10</td>
-                          <td class="verde" id="F11">F11</td>
-                          <td class="verde" id="F12">F12</td>
-                          <td class="verde" id="F13">F13</td>
-                          <td class="verde" id="F14">F14</td>
-                          <td class="verde" id="F15">F15</td>
-                          <td class="verde" id="F16">F16</td>
-                          <td class="verde" id="F17">F17</td>
-                          <td class="verde" id="F18">F18</td>
-                      </tr>
-                  </tbody>
-              </table>
-          </section>
-      </div> <!-- // .p-wrapper -->
-  </div> <!-- // #carousel -->
+            <section class="panel_b">
+                <table id="tabla2">
+                    <tbody>
+                        <!-- Crear filas y columnas -->
+                        <tr>
+                            <td class="verde" id="A1">A1</td>
+                            <td class="verde" id="A2">A2</td>
+                            <td class="verde" id="A3">A3</td>
+                            <td class="verde" id="A4">A4</td>
+                            <td class="verde" id="A5">A5</td>
+                            <td class="verde" id="A6">A6</td>
+                            <td class="verde" id="A7">A7</td>
+                            <td class="verde" id="A8">A8</td>
+                            <td class="verde" id="A9">A9</td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="verde" id="B1">B1</td>
+                            <td class="verde" id="B2">B2</td>
+                            <td class="verde" id="B3">B3</td>
+                            <td class="verde" id="B4">B4</td>
+                            <td class="verde" id="B5">B5</td>
+                            <td class="verde" id="B6">B6</td>
+                            <td class="verde" id="B7">B7</td>
+                            <td class="verde" id="B8">B8</td>
+                            <td class="verde" id="B9">B9</td>
+                        </tr>
+                        <tr>
+                            <td class="verde" id="A10">A10</td>
+                            <td class="verde" id="A11">A11</td>
+                            <td class="verde" id="A12">A12</td>
+                            <td class="verde" id="A13">A13</td>
+                            <td class="verde" id="A14">A14</td>
+                            <td class="verde" id="A15">A15</td>
+                            <td class="verde" id="A16">A16</td>
+                            <td class="verde" id="A17">A17</td>
+                            <td class="verde" id="A18">A18</td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="verde" id="B10">B10</td>
+                            <td class="verde" id="B11">B11</td>
+                            <td class="verde" id="B12">B12</td>
+                            <td class="verde" id="B13">B13</td>
+                            <td class="verde" id="B14">B14</td>
+                            <td class="verde" id="B15">B15</td>
+                            <td class="verde" id="B16">B16</td>
+                            <td class="verde" id="B17">B17</td>
+                            <td class="verde" id="B18">B18</td>
+                        </tr>
+                        <tr>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                        </tr>
+                        <tr>
+                            <td class="verde" id="E1">E1</td>
+                            <td class="verde" id="E2">E2</td>
+                            <td class="verde" id="E3">E3</td>
+                            <td class="verde" id="E4">E4</td>
+                            <td class="verde" id="E5">E5</td>
+                            <td class="verde" id="E6">E6</td>
+                            <td class="verde" id="E7">E7</td>
+                            <td class="verde" id="E8">E8</td>
+                            <td class="verde" id="E9">E9</td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="verde" id="F1">F1</td>
+                            <td class="verde" id="F2">F2</td>
+                            <td class="verde" id="F3">F3</td>
+                            <td class="verde" id="F4">F4</td>
+                            <td class="verde" id="F5">F5</td>
+                            <td class="verde" id="F6">F6</td>
+                            <td class="verde" id="F7">F7</td>
+                            <td class="verde" id="F8">F8</td>
+                            <td class="verde" id="F9">F9</td>
+                        </tr>
+                        <tr>
+                            <td class="verde" id="E10">E10</td>
+                            <td class="verde" id="E11">E11</td>
+                            <td class="verde" id="E12">E12</td>
+                            <td class="verde" id="E13">E13</td>
+                            <td class="verde" id="E14">E14</td>
+                            <td class="verde" id="E15">E15</td>
+                            <td class="verde" id="E16">E16</td>
+                            <td class="verde" id="E17">E17</td>
+                            <td class="verde" id="E18">E18</td>
+                            <td class="asfalto"></td>
+                            <td class="asfalto"></td>
+                            <td class="verde" id="F10">F10</td>
+                            <td class="verde" id="F11">F11</td>
+                            <td class="verde" id="F12">F12</td>
+                            <td class="verde" id="F13">F13</td>
+                            <td class="verde" id="F14">F14</td>
+                            <td class="verde" id="F15">F15</td>
+                            <td class="verde" id="F16">F16</td>
+                            <td class="verde" id="F17">F17</td>
+                            <td class="verde" id="F18">F18</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div> <!-- // .p-wrapper -->
+    </div> <!-- // #carousel -->
 
 
-  <div id="navigation">
-      <label for="button_a" class="label_a"> <span>P1</span> </label>
-      <label for="button_b" class="label_b"> <span>PB</span> </label>
-  </div> <!-- // #navigation -->
+    <div id="navigation">
+        <label for="button_a" class="label_a"> <span>P1</span> </label>
+        <label for="button_b" class="label_b"> <span>PB</span> </label>
+    </div> <!-- // #navigation -->
 </div> <!-- // #container -->
-<script src="script.js"></script>
-</body>
