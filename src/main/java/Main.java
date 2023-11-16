@@ -44,13 +44,14 @@ public class Main {
 
         get("/getDeshab", (req, res) -> {
             res.type("application/json"); // Cambia el tipo de contenido a JSON
-            
-            // Obtén la lista de lugares deshabilitados (asumiendo que modelo.getDeshabilitados() devuelve una lista de Strings)
+
+            // Obtén la lista de lugares deshabilitados (asumiendo que
+            // modelo.getDeshabilitados() devuelve una lista de Strings)
             List<String> deshabilitados = modelo.getDeshabilitados();
-            
+
             // Convierte la lista a JSON usando Gson
             String jsonDeshabilitados = new Gson().toJson(deshabilitados);
-            
+
             // Devuelve la cadena JSON como respuesta
             return jsonDeshabilitados;
         });
@@ -198,17 +199,15 @@ public class Main {
             if (operacion.equalsIgnoreCase("deshabilitar")) {
                 if (!modelo.getDeshabilitados().contains(lugar)) {
                     modelo.getDeshabilitados().add(lugar);
-                    return "Deshabilitado";
-                } else {
-                    return "Error 601";
                 }
+                return lugar.toUpperCase() + " Deshabilitado";
+
             } else if (operacion.equalsIgnoreCase("habilitar")) {
                 if (modelo.getDeshabilitados().contains(lugar)) {
                     modelo.getDeshabilitados().remove(lugar);
-                    return "Habilitado";
-                } else {
-                    return "Error 602";
                 }
+                return lugar.toUpperCase() + " Habilitado";
+
             }
             return "Error interno del servidor";
         });

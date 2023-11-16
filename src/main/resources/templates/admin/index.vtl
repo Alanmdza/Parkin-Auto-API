@@ -9,14 +9,26 @@
 </nav>
 <div id="container">
     <div>
+        <h1>
+            Habilitaciones
+        </h1>
+        <label>Ingrese la el lugar:</label>
+        <input type="text" id="BloqueInput" placeholder="Ej. A" maxlength="1" oninput="validarLetra(this)" style="width: 15%">
+        <input type="text" id="NumeroInput" placeholder="Ej. 1" maxlength="2" oninput="validarNumero(this)" style="width: 15%">
+        <button onclick="Habilitar()">Habilitar</button>
+        <button onclick="Deshabilitar()" class = "redButton">Deshabilitar</button>
+
+
+    </div>
+    <div>
         <h1>Consulta de Patente</h1>
 
-    <label for="patenteInput">Ingrese la patente:</label>
-    <input type="text" id="patenteInput" placeholder="Ej. EA300UC">
+        <label for="patenteInput">Ingrese la patente:</label>
+        <input type="text" id="patenteInput" placeholder="Ej. EA300UC">
 
-    <button onclick="buscarPatente()">Buscar</button>
+        <button onclick="buscarPatente()">Buscar</button>
 
-    <h2 class="ResultadosHeader">Resultados:</h2>
-    <div id="resultados"></div>
+        <h2 class="ResultadosHeader">Resultados:</h2>
+        <div id="resultados"></div>
     </div>
 </div> <!-- // #container -->
