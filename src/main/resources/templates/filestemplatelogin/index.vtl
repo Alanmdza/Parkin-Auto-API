@@ -1,17 +1,17 @@
-
 <nav class="navigationWrapper">
-      <div class="logoWrapper">
-        <span class="stylish">Parkin</span>
-        <span class="logo">Auto</span>
-      </div>
-      
-    </nav>
+  <div class="logoWrapper">
+    <span class="stylish">Parkin</span>
+    <span class="logo">Auto</span>
+  </div>
+  <ul class="navigation">
+    <li class="parent"><a class="link" href="monitor">Monitorizacion</a></li>
+    <li class="parent"><a class="link" href="login" id="showRegistration">Login</a></li>
+  </ul>
+</nav>
 <!-- partial:index.partial.html -->
-<form class="login">
+<div class="container"><form class="login">
   <input type="text" id="username" placeholder="Username">
   <input type="password" id="password" placeholder="Password">
-  <button type="button" onclick="attemptLogin()">Login</button>
-</form>
-<div id="mensaje"></div>
-</body>
-</html>
+  <button type="button" href="chequear" onclick="attemptLogin()">Login</button>
+</form></div>
+

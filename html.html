@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Patente</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        label {
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 16px;
+            width: 200px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #resultados {
+            margin-top: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        td:last-child {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Consulta de Patente</h1>
+
+    <label for="patenteInput">Ingrese la patente:</label>
+    <input type="text" id="patenteInput" placeholder="Ej. EA300UC">
+
+    <button onclick="buscarPatente()">Buscar</button>
+
+    <h2>Resultados:</h2>
+    <div id="resultados"></div>
+
+    <script>
+        function buscarPatente() {
+            var patente = document.getElementById("patenteInput").value;
+
+            // Realizar la solicitud HTTP
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://localhost:4567/buscar/" + patente, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var resultados = JSON.parse(xhr.responseText);
+                    mostrarResultados(resultados);
+                }
+            };
+            xhr.send();
+        }
+
+        function mostrarResultados(resultados) {
+            var resultadosDiv = document.getElementById("resultados");
+            resultadosDiv.innerHTML = ""; // Limpiar resultados anteriores
+
+            if (resultados.length === 0) {
+                resultadosDiv.innerHTML = "No se encontraron resultados para la patente ingresada.";
+                return;
+            }
+
+            // Crear una tabla para mostrar los resultados
+            var table = document.createElement("table");
+            table.border = "1";
+
+            // Crear encabezados de tabla
+            var headerRow = table.insertRow(0);
+            var encabezados = ["Fecha", "Lugar", "Duracion", "Hora de salida", "TOTAL"];
+            for (var i = 0; i < encabezados.length; i++) {
+                var th = document.createElement("th");
+                th.textContent = encabezados[i];
+                headerRow.appendChild(th);
+            }
+
+            // Agregar filas de datos a la tabla
+            for (var i = 0; i < resultados.length; i++) {
+                var row = table.insertRow(i + 1);
+                var duracion = resultados[i]["duracion"];
+                var total = duracion * 50; // Calcular el total
+
+                for (var key in resultados[i]) {
+                    var cell = row.insertCell();
+                    cell.textContent = (key === "duracion") ? duracion + " horas" : resultados[i][key];
+                }
+
+                // Agregar la columna TOTAL a la fila
+                var totalCell = row.insertCell();
+                totalCell.textContent = "$" + total.toFixed(2);
+            }
+
+            // Agregar la tabla a la página
+            resultadosDiv.appendChild(table);
+        }
+    </script>
+
+</body>
+</html>

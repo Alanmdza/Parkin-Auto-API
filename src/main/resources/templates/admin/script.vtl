@@ -1,0 +1,65 @@
+<script>
+  function buscarPatente() {
+      var patente = document.getElementById("patenteInput").value;
+
+      // Realizar la solicitud HTTP
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "http://localhost:4567/buscar/" + patente, true);
+      xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              var resultados = JSON.parse(xhr.responseText);
+              mostrarResultados(resultados);
+          }
+      };
+      xhr.send();
+  }
+
+  function mostrarResultados(resultados) {
+      var resultadosDiv = document.getElementById("resultados");
+      resultadosDiv.innerHTML = ""; // Limpiar resultados anteriores
+
+      if (resultados.length === 0) {
+          resultadosDiv.innerHTML = "No se encontraron resultados para la patente ingresada.";
+          return;
+      }
+
+      // Ordenar resultados por fecha de salida y hora de salida (más reciente primero)
+      resultados.sort(function(a, b) {
+          var fechaA = new Date(a.fecha + " " + a.horaSalida);
+          var fechaB = new Date(b.fecha + " " + b.horaSalida);
+          return fechaB - fechaA;
+      });
+
+      // Crear una tabla para mostrar los resultados
+      var table = document.createElement("table");
+      table.border = "1";
+
+      // Crear encabezados de tabla
+      var headerRow = table.insertRow(0);
+      var encabezados = ["Fecha", "Lugar", "Duracion", "Hora de salida", "TOTAL"];
+      for (var i = 0; i < encabezados.length; i++) {
+          var th = document.createElement("th");
+          th.textContent = encabezados[i];
+          headerRow.appendChild(th);
+      }
+
+      // Agregar filas de datos a la tabla
+      for (var i = 0; i < resultados.length; i++) {
+          var row = table.insertRow(i + 1);
+          var duracion = resultados[i]["duracion"];
+          var total = duracion * 50; // Calcular el total
+
+          for (var key in resultados[i]) {
+              var cell = row.insertCell();
+              cell.textContent = (key === "duracion") ? duracion + " Minutos" : resultados[i][key];
+          }
+
+          // Agregar la columna TOTAL a la fila
+          var totalCell = row.insertCell();
+          totalCell.textContent = "$" + total.toFixed(2);
+      }
+
+      // Agregar la tabla a la página
+      resultadosDiv.appendChild(table);
+  }
+</script>
