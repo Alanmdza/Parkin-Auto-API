@@ -22,7 +22,6 @@ import spark.ModelAndView;
 import spark.Spark;
 import spark.template.velocity.VelocityTemplateEngine;
 import static spark.Spark.*;
-import java.util.Random;
 
 public class Main {
     public static void main(String[] args) throws JsonMappingException, JsonProcessingException, JSONException {
@@ -120,7 +119,7 @@ public class Main {
                     String insertQuery = "INSERT INTO ocupaciones (Lugar, Patente, Duracion, HoraSalida, Fecha) VALUES (?, ?, ?, ?, ?)";
                     try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
                         preparedStatement.setString(1, jsonNode.get("lugar").asText());
-                        String patente = generarPatenteArgentina();
+                        String patente = (((JSONObject)modelo.getLugares().get(jsonNode.get("lugar").asText())).get("patente")).toString();
                         preparedStatement.setString(2, patente);
                         preparedStatement.setDouble(3, (jsonNode.get("Segundos").asDouble() / 60));
                         preparedStatement.setString(4, horaSalida);
@@ -237,45 +236,6 @@ public class Main {
             response.header("Access-Control-Request-Method", methods);
             response.header("Access-Control-Allow-Headers", headers);
         });
-    }
-
-    private static char generarLetraAleatoria() {
-        Random random = new Random();
-        char letra = (char) (random.nextInt(26) + 'A');
-        return letra;
-    }
-
-    private static String generarNumeroAleatorio(int n) {
-        Random random = new Random();
-        StringBuilder numero = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            numero.append(random.nextInt(10));
-        }
-        return numero.toString();
-    }
-
-    public static String generarPatenteArgentina() {
-        Random random = new Random();
-        // Decide si la patente será de formato "LLLNNN" o "LLNNNLL"
-        boolean formatoCorto = random.nextBoolean();
-        StringBuilder patente = new StringBuilder();
-        if (formatoCorto) {
-            // Formato "LLLNNN"
-            for (int i = 0; i < 3; i++) {
-                patente.append(generarLetraAleatoria());
-            }
-            patente.append(generarNumeroAleatorio(3));
-        } else {
-            // Formato "LLNNNLL"
-            for (int i = 0; i < 2; i++) {
-                patente.append(generarLetraAleatoria());
-            }
-            patente.append(generarNumeroAleatorio(3));
-            for (int i = 0; i < 2; i++) {
-                patente.append(generarLetraAleatoria());
-            }
-        }
-        return patente.toString();
     }
 
     private static boolean usuarioAutenticado(spark.Request request) {
