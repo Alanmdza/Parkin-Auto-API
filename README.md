@@ -29,6 +29,12 @@ The project aims to achieve the following goals:
 - Automate the process of assigning license plates to parking spaces.
 - Facilitate the payment process for parking fees, including sending information about the parking duration for each vehicle.
 
+## Updates
+
+The Trigger, initially a separate project, has been integrated as a thread in the main project. A SQL database has been added to store occupancy records. Additionally, a module has been incorporated to query this database, allowing the system to determine the amount to charge for parking. The search is based on the vehicle's license plate.
+
+An authentication process has been introduced for user login to access the database query module. This ensures secure access to sensitive information.
+
 ## How It Works
 
 The project is divided into two parts:
@@ -36,6 +42,8 @@ The project is divided into two parts:
 1. **ESP32 Controller:** This component determines the status of each parking space using sensors and sends updates via HTTP to our API. The project utilizes the Wokwi simulation tool to simulate the system in a real-life environment.
 
 ![image](https://github.com/Alanmdza/Parking-Auto-API/assets/126357766/8131ac79-7e0b-46f1-be39-42ba34d5dceb)
+
+The corresponding repository is [ESP32](https://github.com/Alanmdza/Parking-Auto-ESP32)
 
 
 2. **API:** The API itself handles requests to update the model and present information to viewers. It's developed using the JAVA Spark framework and uses the Velocity template engine.
@@ -46,10 +54,5 @@ The project is divided into two parts:
 
 To run the API, you only need JAVA and Maven to start the local Jetty server.
 
-To simulate the ESP32, you'll need the PlatformIO compiler and the Wokwi simulation environment, both of which can be installed as VS Code extensions. It's worth noting that at the time of developing this project, the Wokwi tool is under development, and the HTTP simulation library does not work correctly. To simulate the behavior of a real ESP32, we've added an application called Trigger that sends requests to the local server to initialize the Wokwi simulation and obtain ESP32 information to send to the API.
+To simulate the ESP32, you'll need the PlatformIO compiler and the Wokwi simulation environment, both of which can be installed as VS Code extensions. It's worth noting that at the time of developing this project, the Wokwi tool is under development, and the HTTP simulation library does not work correctly. To simulate the behavior of a real ESP32, the Trigger has been implemented as a thread in the main project.
 
-
-The corresponding repositories are:
-
-  * [ESP32](https://github.com/Alanmdza/Parking-Auto-ESP32)
-  * [Trigger](https://github.com/Alanmdza/Parking-Auto-Trigger)
