@@ -137,8 +137,7 @@ public class Main {
             return "POST recibido con éxito";
         });
 
-        // ----------Rutas privadas (requiere
-        // autenticación)----------------------------------------------------------------
+        // ----------Rutas privadas (requiere autenticación)----------------------------------------------------------------
 
         before("/admin/*", (req, res) -> {
             if (!usuarioAutenticado(req)) {

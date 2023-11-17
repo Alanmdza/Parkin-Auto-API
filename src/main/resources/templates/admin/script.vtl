@@ -8,20 +8,7 @@
         // Asegura que solo se permita un número
         input.value = input.value.replace(/[^0-9]/g, '');
     }
-    function Habilitar() {
-        var patente = document.getElementById("patenteInput").value;
-
-        // Realizar la solicitud HTTP
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://localhost:4567/admin/buscar/" + patente, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                var resultados = JSON.parse(xhr.responseText);
-                mostrarResultados(resultados);
-            }
-        };
-        xhr.send();
-    }
+    
     function Habilitar() {
         // Obtener valores de los inputs
         var bloque = document.getElementById('BloqueInput').value;
