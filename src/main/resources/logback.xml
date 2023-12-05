@@ -1,0 +1,15 @@
+<configuration>
+    <!-- Archivo de salida de logs -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/mylog.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Configuración del root logger -->
+    <root level="debug">
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

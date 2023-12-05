@@ -1,29 +1,22 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import org.json.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 import java.util.Date;
+import org.json.*;
+import java.sql.*;
+import java.text.SimpleDateFormat;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
 import com.google.gson.Gson;
-import spark.ModelAndView;
-import spark.Spark;
+import spark.*;
 import spark.template.velocity.VelocityTemplateEngine;
 import static spark.Spark.*;
+import org.slf4j.*;
 
 public class Main {
+
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+
     public static void main(String[] args) throws JsonMappingException, JsonProcessingException, JSONException {
 
         // ----------Setup---------------------------------------------------------------------------------------
@@ -97,6 +90,7 @@ public class Main {
             if (usuarios.containsKey(req.queryParams("user"))
                     && usuarios.get(req.queryParams("user")).equals(req.queryParams("pass"))) {
                 req.session(true).attribute("username", req.queryParams("user"));
+                logger.info("User=" + usuarios.get(req.queryParams("user")));
                 res.redirect("/admin/control");
                 return null;
             } else {
@@ -119,7 +113,8 @@ public class Main {
                     String insertQuery = "INSERT INTO ocupaciones (Lugar, Patente, Duracion, HoraSalida, Fecha) VALUES (?, ?, ?, ?, ?)";
                     try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
                         preparedStatement.setString(1, jsonNode.get("lugar").asText());
-                        String patente = (((JSONObject)modelo.getLugares().get(jsonNode.get("lugar").asText())).get("patente")).toString();
+                        String patente = (((JSONObject) modelo.getLugares().get(jsonNode.get("lugar").asText()))
+                                .get("patente")).toString();
                         preparedStatement.setString(2, patente);
                         preparedStatement.setDouble(3, (jsonNode.get("Segundos").asDouble() / 60));
                         preparedStatement.setString(4, horaSalida);
@@ -137,7 +132,8 @@ public class Main {
             return "POST recibido con éxito";
         });
 
-        // ----------Rutas privadas (requiere autenticación)----------------------------------------------------------------
+        // ----------Rutas privadas (requiere
+        // autenticación)----------------------------------------------------------------
 
         before("/admin/*", (req, res) -> {
             if (!usuarioAutenticado(req)) {
@@ -240,5 +236,4 @@ public class Main {
     private static boolean usuarioAutenticado(spark.Request request) {
         return request.session().attribute("username") != null;
     }
-
 }
